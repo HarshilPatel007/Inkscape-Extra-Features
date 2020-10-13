@@ -28,13 +28,6 @@ class CreateBackgrond(inkex.GenerateExtension):
                                      type=inkex.Color, default='#000000FF', help='Select Background Color')
 
     def generate(self):
-        
-        # if self.options.create:
-
-        get_root = self.document.getroot()
-
-        width  = self.svg.unittouu(get_root.get('width'))
-        height = self.svg.unittouu(get_root.attrib['height'])
 
         layer = self.svg.add(inkex.Layer.new('Background-%d' %(random.randint(1,100))))
 
@@ -44,8 +37,7 @@ class CreateBackgrond(inkex.GenerateExtension):
             'fill'          : self.options.background_color
         }
 
-        parent = layer
-        child = parent.add(inkex.Rectangle.new(0, 0, width, height)) # inkex.Rectangle.new(x, y, w, h)
+        child = layer.add(inkex.Rectangle.new(0, 0, self.svg.width, self.svg.height)) # inkex.Rectangle.new(x, y, w, h)
         child.style = style
 
         return child
