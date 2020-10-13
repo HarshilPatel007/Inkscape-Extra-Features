@@ -6,6 +6,7 @@
     <dependency type="executable" location="extensions">inkex.py</dependency>
 
     <param name="create" type="bool" gui-text="Create Background">true</param>
+    <param type="color" name="background_color" type="color" appearance="colorbutton" gui-text="Select Background Color" >#000000FF</param>
 
     <effect>
 		<object-type>all</object-type>
@@ -15,6 +16,6 @@
 	</effect>
 
     <script>
-        <command location="inx" interpreter="python">ef-create-background.py</command>
+        <command location="inx" interpreter="python">ef-create-background2.py</command>
     </script>
 </inkscape-extension>

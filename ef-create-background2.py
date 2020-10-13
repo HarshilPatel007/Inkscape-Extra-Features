@@ -18,9 +18,8 @@
 
 import random
 import inkex
-from lxml import etree
 
-class CreateBackgrond(inkex.Effect):
+class CreateBackgrond(inkex.GenerateExtension):
 
     def add_arguments(self, pars):
         pars.add_argument("--create", action='store', dest='create',
@@ -28,38 +27,28 @@ class CreateBackgrond(inkex.Effect):
         pars.add_argument("--background_color",
                                      type=inkex.Color, default='#000000FF', help='Select Background Color')
 
-    def effect(self):
+    def generate(self):
         
-        if self.options.create:
+        # if self.options.create:
 
-            # get_root = self.document.getroot()
+        get_root = self.document.getroot()
 
-            # self.createGuide(82.328, 152.538, 90.000)
+        width  = self.svg.unittouu(get_root.get('width'))
+        height = self.svg.unittouu(get_root.attrib['height'])
 
-            width  = self.svg.unittouu(get_root.get('width'))
-            height = self.svg.unittouu(get_root.attrib['height'])
+        layer = self.svg.add(inkex.Layer.new('Background-%d' %(random.randint(1,100))))
 
-            layer = etree.SubElement(get_root, 'g')
-            layer.set(inkex.addNS('label', 'inkscape'), 'Background-%d' %(random.randint(1,100)))
-            layer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
+        style = {
+            'stroke'        : 'none',
+            'stroke-width'  : '1',
+            'fill'          : self.options.background_color
+        }
 
-            style = {
-                'stroke'        : 'none',
-                'stroke-width'  : '1',
-                'fill'          : self.options.background_color
-            }
-                    
-            attribs = {
-                'style'     : str(inkex.Style(style)),
-                'height'    : str(height),
-                'width'     : str(width),
-                'x'         : str(0),
-                'y'         : str(0)
-            }
+        parent = layer
+        child = parent.add(inkex.Rectangle.new(0, 0, width, height)) # inkex.Rectangle.new(x, y, w, h)
+        child.style = style
 
-            parent = layer
-            etree.SubElement(parent, inkex.addNS('rect','svg'), attribs)
-            # parent.add(inkex.Rectangle.new(attribs))
+        return child
 
 
 if __name__ == '__main__':
