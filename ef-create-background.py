@@ -25,7 +25,7 @@ class CreateBackgrond(inkex.Effect):
     def __init__(self):
         inkex.Effect.__init__(self)
         self.arg_parser.add_argument("--create", action='store', dest='create',
-                                     type=bool, default=True, help='Create Background')
+                                     type=inkex.Boolean, default=True, help='Create Background')
 
     def effect(self):
         
