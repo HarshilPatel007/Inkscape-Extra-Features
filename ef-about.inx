@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>About</name>
+    <id>org.inkscape.ef.about</id>
+    <param name='active-tab' type="notebook">
+        <page name='about' gui-text='About'>
+            <label xml:space="preserve">'Inkscape Extra Features' was developed to implement or replicate the common features of other vector application(s) into Inkscape.
+            Developed By : Harshil Patel
+            URL : http://github.com/HarshilPatel007/
+            </label>
+        </page>
+    </param>
+
+    <effect needs-live-preview="false">
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Inkscape Extra Features"/>
+        </effects-menu>
+    </effect>
+    <!-- <script>
+        <command location="inx" interpreter="python">ef-create-background.py</command>
+    </script> -->
+</inkscape-extension>

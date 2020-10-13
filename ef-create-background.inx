@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Create Background</name>
+    <id>org.inkscape.ef.createbackground</id>
+
+    <dependency type="executable" location="extensions">inkex.py</dependency>
+
+    <param name="create" type="bool" gui-text="Create Background">true</param>
+
+    <effect>
+		<object-type>all</object-type>
+		<effects-menu>
+			<submenu name="Inkscape Extra Features"/>
+		</effects-menu>
+	</effect>
+
+    <script>
+        <command location="inx" interpreter="python">ef-create-background.py</command>
+    </script>
+</inkscape-extension>
