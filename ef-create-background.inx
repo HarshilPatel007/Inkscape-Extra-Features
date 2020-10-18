@@ -16,6 +16,6 @@
 	</effect>
 
     <script>
-        <command location="inx" interpreter="python">ef-create-background2.py</command>
+        <command location="inx" interpreter="python">ef-create-background.py</command>
     </script>
 </inkscape-extension>

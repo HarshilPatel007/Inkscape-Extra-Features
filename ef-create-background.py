@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 #   ef-create-background.py Copyright (C) 2020  Harshil Patel
 
 #   This program is free software: you can redistribute it and/or modify
@@ -14,54 +16,44 @@
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-
-
+"""
+This extension creates the exact canvas size rectangle as a background layer.
+Version 2
+"""
 import random
 import inkex
-from lxml import etree
 
-class CreateBackgrond(inkex.Effect):
+
+class CreateBackground(inkex.GenerateExtension):
 
     def add_arguments(self, pars):
+        """
+        Taking an arguments from user from GUI options.
+        """
         pars.add_argument("--create", action='store', dest='create',
-                                     type=inkex.Boolean, default=True, help='Create Background')
+                          type=inkex.Boolean, default=True, help='Create Background')
         pars.add_argument("--background_color",
-                                     type=inkex.Color, default='#000000FF', help='Select Background Color')
+                          type=inkex.Color, default='#000000FF', help='Select Background Color')
 
-    def effect(self):
-        
-        if self.options.create:
+    container_layer = True
+    container_label = 'Background-%d' % (random.randint(1, 100))
 
-            # get_root = self.document.getroot()
+    def generate(self):
+        """
+        Generating canvas size rectangle as a Background-%d.
+        """
+        style = {
+            'stroke': 'none',
+            'stroke-width': '1',
+            'fill': self.options.background_color
+        }
 
-            # self.createGuide(82.328, 152.538, 90.000)
+        child = inkex.Rectangle.new(0, 0, self.svg.width, self.svg.height)  # inkex.Rectangle.new(x, y, w, h)
+        child.style = style
 
-            width  = self.svg.unittouu(get_root.get('width'))
-            height = self.svg.unittouu(get_root.attrib['height'])
-
-            layer = etree.SubElement(get_root, 'g')
-            layer.set(inkex.addNS('label', 'inkscape'), 'Background-%d' %(random.randint(1,100)))
-            layer.set(inkex.addNS('groupmode', 'inkscape'), 'layer')
-
-            style = {
-                'stroke'        : 'none',
-                'stroke-width'  : '1',
-                'fill'          : self.options.background_color
-            }
-                    
-            attribs = {
-                'style'     : str(inkex.Style(style)),
-                'height'    : str(height),
-                'width'     : str(width),
-                'x'         : str(0),
-                'y'         : str(0)
-            }
-
-            parent = layer
-            etree.SubElement(parent, inkex.addNS('rect','svg'), attribs)
-            # parent.add(inkex.Rectangle.new(attribs))
+        yield child
 
 
 if __name__ == '__main__':
-    MyExtension = CreateBackgrond()
+    MyExtension = CreateBackground()
     MyExtension.run()
