@@ -5,8 +5,9 @@
 
     <dependency type="executable" location="extensions">inkex.py</dependency>
 
-    <param name="create" type="bool" gui-text="Create Background">true</param>
-    <param type="color" name="background_color" type="color" appearance="colorbutton" gui-text="Select Background Color" >#000000FF</param>
+    <param name="create_background" type="bool" gui-text="Create Background">true</param>
+    <param name="background_color" type="color" appearance="colorbutton" gui-text="Select Background Color" >#000000FF</param>
+    <param name="lock_layer" type="bool" gui-text="Lock Layer">true</param>
 
     <effect>
 		<object-type>all</object-type>
