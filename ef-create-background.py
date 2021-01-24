@@ -18,7 +18,7 @@
 
 """
 This extension creates the exact canvas size rectangle as a background layer.
-Version dev-2.1
+Version dev-2.2
 """
 import random
 import inkex
@@ -26,7 +26,8 @@ import inkex
 
 class CreateBackground(inkex.GenerateExtension):
 
-    def add_arguments(self, pars):
+    @staticmethod
+    def add_arguments(pars):
         """
         Taking an arguments from user from GUI options.
         """
@@ -52,10 +53,9 @@ class CreateBackground(inkex.GenerateExtension):
 
         child = inkex.Rectangle.new(0, 0, self.svg.width, self.svg.height)  # inkex.Rectangle.new(x, y, w, h)
         child.style = style
-        if self.options.lock_layer is True:
-            child.set('sodipodi:insensitive', 'true')  # this locks the rectangle instead of layer. should lock layer.
-
         yield child
+        if self.options.lock_layer is True:
+            child.getparent().set('sodipodi:insensitive', 'true')
 
 
 if __name__ == '__main__':
