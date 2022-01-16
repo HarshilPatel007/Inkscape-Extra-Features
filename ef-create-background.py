@@ -57,11 +57,23 @@ class CreateBackground(inkex.GenerateExtension):
             "fill": self.options.background_color,
         }
 
+        try:
+            viewport_to_unit = self.svg.viewport_to_unit
+        except AttributeError:
+            viewport_to_unit = lambda x:x
+
+        try:
+            canvas_width = self.svg.viewport_width
+            canvas_height = self.svg.viewport_height
+        except AttributeError:
+            canvas_width = self.svg.width
+            canvas_height = self.svg.height
+
         child = inkex.Rectangle.new(
             0,
             0,
-            (self.svg.viewport_to_unit(self.svg.viewport_width)),
-            (self.svg.viewport_to_unit(self.svg.viewport_height)),
+            (viewport_to_unit(canvas_width)),
+            (viewport_to_unit(canvas_height)),
         )  # inkex.Rectangle.new(x, y, w, h)
         child.style = style
         yield child
