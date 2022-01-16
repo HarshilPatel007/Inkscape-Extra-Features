@@ -25,39 +25,62 @@ import inkex
 
 
 class CreateBackground(inkex.GenerateExtension):
-
     @staticmethod
     def add_arguments(pars):
         """
         Taking an arguments from user from GUI options.
         """
-        pars.add_argument("--create_background",
-                          type=inkex.Boolean, default=True, help='Create Background')
-        pars.add_argument("--background_color",
-                          type=inkex.Color, default='#000000FF', help='Select Background Color')
-        pars.add_argument("--lock_layer",
-                          type=inkex.Boolean, help='Lock Layer')
+        pars.add_argument(
+            "--create_background",
+            type=inkex.Boolean,
+            default=True,
+            help="Create Background",
+        )
+        pars.add_argument(
+            "--background_color",
+            type=inkex.Color,
+            default="#000000FF",
+            help="Select Background Color",
+        )
+        pars.add_argument("--lock_layer", type=inkex.Boolean, help="Lock Layer")
 
     container_layer = True
-    container_label = 'Background-%d' % (random.randint(1, 100))
+    container_label = "Background-%d" % (random.randint(1, 100))
 
     def generate(self):
         """
         Generating canvas size rectangle as a Background-%d.
         """
         style = {
-            'stroke': 'none',
-            'stroke-width': '1',
-            'fill': self.options.background_color
+            "stroke": "none",
+            "stroke-width": "1",
+            "fill": self.options.background_color,
         }
 
-        child = inkex.Rectangle.new(0, 0, self.svg.width, self.svg.height)  # inkex.Rectangle.new(x, y, w, h)
+        try:
+            viewport_to_unit = self.svg.viewport_to_unit
+        except AttributeError:
+            viewport_to_unit = lambda x:x
+
+        try:
+            canvas_width = self.svg.viewport_width
+            canvas_height = self.svg.viewport_height
+        except AttributeError:
+            canvas_width = self.svg.width
+            canvas_height = self.svg.height
+
+        child = inkex.Rectangle.new(
+            0,
+            0,
+            (viewport_to_unit(canvas_width)),
+            (viewport_to_unit(canvas_height)),
+        )  # inkex.Rectangle.new(x, y, w, h)
         child.style = style
         yield child
         if self.options.lock_layer is True:
-            child.getparent().set('sodipodi:insensitive', 'true')
+            child.getparent().set("sodipodi:insensitive", "true")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     MyExtension = CreateBackground()
     MyExtension.run()
